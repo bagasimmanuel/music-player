@@ -1,4 +1,5 @@
 <template>
+  <Nav @toggleLibrary="updateLibraryStatus" />
   <Song :currentSong="currentSong" />
   <Player
     :currentSong="currentSong"
@@ -6,8 +7,10 @@
     @playOrPause="updateIsPlaying"
     :audioRef="audioRef"
     :songInfo="songInfo"
+    @skipSong="skipSong"
   />
   <Library
+    :libraryStatus="libraryStatus"
     :audioRef="audioRef"
     :songs="songs"
     @selectSong="updateSelectedSong"
@@ -25,6 +28,7 @@ import { ref, reactive } from "vue";
 import Song from "@/components/Song.vue";
 import Player from "@/components/Player.vue";
 import Library from "@/components/Library.vue";
+import Nav from "@/components/Nav.vue";
 import data from "./util";
 //Song
 const songs = ref(data);
@@ -56,6 +60,45 @@ const songInfo = reactive({
 const updateSongInfo = (e) => {
   songInfo.currentTime = e.target.currentTime;
   songInfo.duration = e.target.duration;
+};
+
+// library status
+let libraryStatus = ref(false);
+const updateLibraryStatus = () => {
+  libraryStatus.value = !libraryStatus.value;
+};
+
+// skipSong
+const skipSong = (num) => {
+  const totalSong = songs.value.length;
+  const currentIndex = songs.value.findIndex(
+    (song) => song.id === currentSong.value.id
+  );
+  // This logic is kinda stupid i think we can just do like below
+  // let updatedIndex = currentIndex + num;
+  // if (updatedIndex + num > totalSong - 1) {
+  //   updatedIndex = 0;
+  // } else if (updatedIndex + num < 0) {
+  //   updatedIndex = totalSong - 1;
+  // } else {
+  //   updatedIndex += num;
+  // }
+  /////
+  let updatedIndex = (currentIndex + num) % (totalSong - 1);
+  if (updatedIndex < 0) updatedIndex = totalSong - 1;
+  currentSong.value.active = false;
+
+  currentSong.value = songs.value[updatedIndex];
+  currentSong.value.active = true;
+  if (isPlaying.value)
+    if (isPlaying.value) {
+      const playPromise = audioRef.value.play();
+      if (audioRef.value.play() !== undefined) {
+        playPromise.then((audio) => {
+          audioRef.value.play();
+        });
+      }
+    }
 };
 </script>
 <style>

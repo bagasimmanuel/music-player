@@ -4,7 +4,7 @@
       <p>{{ formattedCurrentTime }}</p>
       <input
         min="0"
-        :max="`${songInfo.duration}`"
+        :max="`${songInfo.duration || 0}`"
         :value="`${songInfo.currentTime}`"
         @change="sliderHandler"
         type="range"
@@ -13,6 +13,7 @@
     </div>
     <div class="play-control">
       <font-awesome-icon
+        @click="skipSong('skip-back')"
         class="skip-back"
         icon="fa-solid fa-angle-left"
         size="2x"
@@ -29,6 +30,7 @@
         https://stackoverflow.com/questions/49427008/how-to-apply-transitions-to-font-awesome-5-vue-icons -->
       </Transition>
       <font-awesome-icon
+        @click="skipSong('skip-forward')"
         class="skip-forward"
         icon="fa-solid fa-angle-right"
         size="2x"
@@ -39,7 +41,6 @@
 
 <script setup>
 import { defineProps, computed } from "vue";
-const emit = defineEmits(["playOrPause"]);
 
 const props = defineProps({
   currentSong: {
@@ -80,7 +81,7 @@ const formatTime = (timeInMillis) => {
 };
 
 // Emits
-
+const emit = defineEmits(["playOrPause", "skipSong"]);
 const playOrPause = () => {
   if (props.isPlaying) {
     props.audioRef.pause();
@@ -88,6 +89,14 @@ const playOrPause = () => {
     props.audioRef.play();
   }
   emit("playOrPause");
+};
+
+const skipSong = (data) => {
+  if (data === "skip-forward") {
+    emit("skipSong", 1);
+    return;
+  }
+  emit("skipSong", -1);
 };
 // Props accessed in js, need to use props.propName
 // meanwhile di template no need, just use propName

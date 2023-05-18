@@ -1,5 +1,5 @@
 <template>
-  <div class="library">
+  <div class="library" :class="isLibraryOpen">
     <h2>Library</h2>
     <div class="library-songs">
       <LibrarySong
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted } from "vue";
+import { computed, defineProps, onMounted } from "vue";
 import LibrarySong from "@/components/LibrarySong.vue";
 
 const emit = defineEmits(["selectSong"]);
@@ -36,8 +36,14 @@ const props = defineProps({
   isPlaying: {
     type: Boolean,
   },
+  libraryStatus: {
+    type: Boolean,
+    required: true,
+  },
 });
-onMounted(() => {});
+const isLibraryOpen = computed(() => {
+  return props.libraryStatus ? "active-library" : "";
+});
 </script>
 
 <style scoped lang="scss">
@@ -48,10 +54,17 @@ onMounted(() => {});
   width: 20rem;
   height: 100%;
   box-shadow: 2px 2px 50px rgb(203, 203, 203);
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
+  opacity: 0;
   overflow: scroll;
   h2 {
     padding: 2rem;
   }
+}
+.active-library {
+  transform: translateX(0%);
+  opacity: 1;
 }
 
 .library-songs {

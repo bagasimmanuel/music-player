@@ -10,11 +10,12 @@ import {
   faAngleLeft,
   faAngleRight,
   faPause,
+  faMusic,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlay);
 library.add(faAngleLeft);
 library.add(faAngleRight);
 library.add(faPause);
-
+library.add(faMusic);
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).mount("#app");

@@ -1,5 +1,5 @@
 <template>
-  <div @click="selectSong" class="library-song">
+  <div @click="selectSong" class="library-song" :class="isActive">
     <img :src="`${song.cover}`" />
     <div class="song-description">
       <h3>{{ song.name }}</h3>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, computed } from "vue";
 
 const emit = defineEmits(["updateSelectedSong"]);
 
@@ -43,6 +43,12 @@ const selectSong = () => {
     }
   }
 };
+
+const isActive = computed(() => {
+  if (props.song.active === true) {
+    return "is-active";
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -54,7 +60,7 @@ const selectSong = () => {
     width: 30%;
   }
   &:hover {
-    background: lightcyan;
+    background: rgba(224, 255, 255, 0.212);
   }
 }
 .song-description {
@@ -64,6 +70,14 @@ const selectSong = () => {
   }
   h4 {
     font-size: 0.75rem;
+  }
+}
+
+.is-active {
+  background-color: lightcyan;
+
+  &:hover {
+    background: rgba(224, 255, 255, 0.212);
   }
 }
 </style>
