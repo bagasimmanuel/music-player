@@ -21,6 +21,7 @@
     @loadedmetadata="updateSongInfo"
     :src="`${currentSong.audio}`"
     ref="audioRef"
+    @ended="skipSong(1)"
   ></audio>
 </template>
 <script setup>
@@ -99,6 +100,8 @@ const skipSong = (num) => {
   currentSong.value = songs.value[updatedIndex];
   currentSong.value.active = true;
   playAudio(isPlaying.value, audioRef);
+
+  // SongEndHandler
 };
 </script>
 <style>
