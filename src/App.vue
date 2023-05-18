@@ -56,11 +56,17 @@ const audioRef = ref(null);
 const songInfo = reactive({
   currentTime: 0,
   duration: 0,
+  animationPercentage: 0,
 });
 
 const updateSongInfo = (e) => {
   songInfo.currentTime = e.target.currentTime;
   songInfo.duration = e.target.duration;
+  const roundedCurrent = Math.round(songInfo.currentTime);
+  const roundedDuration = Math.round(songInfo.duration);
+  songInfo.animationPercentage = Math.round(
+    (roundedCurrent / roundedDuration) * 100
+  );
 };
 
 // library status

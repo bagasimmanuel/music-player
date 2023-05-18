@@ -2,13 +2,16 @@
   <div class="player">
     <div class="time-control">
       <p>{{ formattedCurrentTime }}</p>
-      <input
-        min="0"
-        :max="`${songInfo.duration || 0}`"
-        :value="`${songInfo.currentTime}`"
-        @change="sliderHandler"
-        type="range"
-      />
+      <div class="track" :style="trackBackground">
+        <input
+          min="0"
+          :max="`${songInfo.duration || 0}`"
+          :value="`${songInfo.currentTime}`"
+          @change="sliderHandler"
+          type="range"
+        />
+        <div class="animate-track" :style="translateX"></div>
+      </div>
       <p>{{ formattedDuration }}</p>
     </div>
     <div class="play-control">
@@ -106,6 +109,15 @@ const skipSong = (data) => {
 const computedPlayOrPause = computed(() => {
   return props.isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
 });
+
+//computed tracker style
+const translateX = computed(() => {
+  return `transform: translateX(${props.songInfo.animationPercentage}%)`;
+});
+
+const trackBackground = computed(() => {
+  return `background : linear-gradient(to right, ${props.currentSong.color[0]},${props.currentSong.color[1]})`;
+});
 </script>
 
 <style scoped lang="scss">
@@ -122,7 +134,9 @@ const computedPlayOrPause = computed(() => {
   justify-content: space-between;
   input {
     width: 100%;
-    padding: 1rem 0rem;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
   }
   p {
     padding: 1rem;
@@ -137,6 +151,37 @@ const computedPlayOrPause = computed(() => {
   svg {
     cursor: pointer;
   }
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+}
+.track {
+  width: 100%;
+  height: 1rem;
+  position: relative;
+  border-radius: 1rem;
+  display: flex;
+  overflow: hidden;
+  transform: translateY(100%); // Idk why but we need this to align center
+}
+
+.animate-track {
+  background: rgb(204, 204, 204);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  align-self: center;
+  top: 0;
+  left: 0;
+  transform: translate(0%);
+  pointer-events: none;
 }
 
 // Transitions, will tweak around later
