@@ -69,7 +69,8 @@ const formattedCurrentTime = computed(() => {
 });
 
 const formattedDuration = computed(() => {
-  return formatTime(props.songInfo.duration);
+  // console.log(props.songInfo.duration);
+  return props.songInfo.duration ? formatTime(props.songInfo.duration) : "0:00";
 });
 
 const formatTime = (timeInMillis) => {

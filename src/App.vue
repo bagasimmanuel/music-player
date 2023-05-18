@@ -29,7 +29,8 @@ import Song from "@/components/Song.vue";
 import Player from "@/components/Player.vue";
 import Library from "@/components/Library.vue";
 import Nav from "@/components/Nav.vue";
-import data from "./util";
+import data from "./data";
+import { playAudio } from "./util";
 //Song
 const songs = ref(data);
 let currentSong = ref(songs.value[0]);
@@ -86,19 +87,12 @@ const skipSong = (num) => {
   /////
   let updatedIndex = (currentIndex + num) % (totalSong - 1);
   if (updatedIndex < 0) updatedIndex = totalSong - 1;
+
   currentSong.value.active = false;
 
   currentSong.value = songs.value[updatedIndex];
   currentSong.value.active = true;
-  if (isPlaying.value)
-    if (isPlaying.value) {
-      const playPromise = audioRef.value.play();
-      if (audioRef.value.play() !== undefined) {
-        playPromise.then((audio) => {
-          audioRef.value.play();
-        });
-      }
-    }
+  playAudio(isPlaying.value, audioRef);
 };
 </script>
 <style>

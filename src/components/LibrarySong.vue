@@ -10,7 +10,7 @@
 
 <script setup>
 import { defineProps, defineEmits, computed } from "vue";
-
+import { playAudio } from "../util";
 const emit = defineEmits(["updateSelectedSong"]);
 
 const props = defineProps({
@@ -34,14 +34,7 @@ const props = defineProps({
 
 const selectSong = () => {
   emit("updateSelectedSong", props.song.id);
-  if (props.isPlaying) {
-    const playPromise = props.audioRef.play();
-    if (props.audioRef.play() !== undefined) {
-      playPromise.then((audio) => {
-        props.audioRef.play();
-      });
-    }
-  }
+  playAudio(props.isPlaying, props.audioRef);
 };
 
 const isActive = computed(() => {
