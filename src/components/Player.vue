@@ -53,7 +53,7 @@ const songInfo = reactive({
   currentTime: 0,
   duration: 0,
 });
-
+// Read commit message
 const updateSongInfo = (e) => {
   songInfo.currentTime = e.target.currentTime;
   songInfo.duration = e.target.duration;
