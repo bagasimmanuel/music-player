@@ -33,4 +33,12 @@ const props = defineProps({
     font-size: 1rem;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .song-container {
+    img {
+      width: 60%;
+    }
+  }
+}
 </style>

@@ -38,4 +38,12 @@ nav {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  nav {
+    button {
+      z-index: 10;
+    }
+  }
+}
 </style>

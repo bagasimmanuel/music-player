@@ -193,6 +193,15 @@ input[type="range"]::-webkit-slider-thumb {
 .fade-leave-to {
   opacity: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .time-control {
+    width: 90%;
+  }
+  .play-control {
+    width: 60%;
+  }
+}
 </style>
 
 <script setup></script>

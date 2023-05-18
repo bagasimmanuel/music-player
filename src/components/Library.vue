@@ -71,4 +71,12 @@ const isLibraryOpen = computed(() => {
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width: 768px) {
+  .library {
+    width: 100%;
+    opacity: 1;
+    background: white;
+  }
+}
 </style>

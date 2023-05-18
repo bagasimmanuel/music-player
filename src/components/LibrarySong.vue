@@ -49,6 +49,7 @@ const isActive = computed(() => {
   display: flex;
   padding: 1rem 2rem 1rem 2rem;
   cursor: pointer;
+  transition: background 0.5s ease;
   img {
     width: 30%;
   }
