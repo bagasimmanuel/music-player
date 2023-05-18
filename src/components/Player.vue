@@ -34,51 +34,12 @@
         size="2x"
       />
     </div>
-    <audio
-      @timeupdate="updateSongInfo"
-      :src="`${currentSong.audio}`"
-      ref="audioRef"
-    ></audio>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps, reactive, computed } from "vue";
-
+import { defineProps, computed } from "vue";
 const emit = defineEmits(["playOrPause"]);
-const audioRef = ref(null);
-
-// Song Info
-const songInfo = reactive({
-  currentTime: 0,
-  duration: 0,
-});
-// Read commit message
-const updateSongInfo = (e) => {
-  songInfo.currentTime = e.target.currentTime;
-  songInfo.duration = e.target.duration;
-};
-
-const sliderHandler = (e) => {
-  audioRef.value.currentTime = e.target.value;
-  songInfo.currentTime = e.target.value;
-};
-
-const formattedCurrentTime = computed(() => {
-  return formatTime(songInfo.currentTime);
-});
-
-const formattedDuration = computed(() => {
-  return formatTime(songInfo.duration);
-});
-
-const formatTime = (timeInMillis) => {
-  return (
-    Math.floor(timeInMillis / 60) +
-    ":" +
-    ("0" + Math.floor(timeInMillis % 60)).slice(-2)
-  );
-};
 
 const props = defineProps({
   currentSong: {
@@ -89,15 +50,42 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  audioRef: {
+    type: Object,
+  },
+  songInfo: {
+    type: Object,
+  },
 });
+
+const sliderHandler = (e) => {
+  props.audioRef.currentTime = e.target.value;
+  props.songInfo.currentTime = e.target.value;
+};
+
+const formattedCurrentTime = computed(() => {
+  return formatTime(props.songInfo.currentTime);
+});
+
+const formattedDuration = computed(() => {
+  return formatTime(props.songInfo.duration);
+});
+
+const formatTime = (timeInMillis) => {
+  return (
+    Math.floor(timeInMillis / 60) +
+    ":" +
+    ("0" + Math.floor(timeInMillis % 60)).slice(-2)
+  );
+};
 
 // Emits
 
 const playOrPause = () => {
   if (props.isPlaying) {
-    audioRef.value.pause();
+    props.audioRef.pause();
   } else {
-    audioRef.value.play();
+    props.audioRef.play();
   }
   emit("playOrPause");
 };

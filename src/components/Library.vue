@@ -8,6 +8,8 @@
         :song="song"
         :key="song.id"
         @updateSelectedSong="selectSong"
+        :audioRef="audioRef"
+        :isPlaying="isPlaying"
       />
     </div>
   </div>
@@ -27,6 +29,12 @@ const props = defineProps({
   songs: {
     type: Object,
     required: true,
+  },
+  audioRef: {
+    type: Object,
+  },
+  isPlaying: {
+    type: Boolean,
   },
 });
 onMounted(() => {});

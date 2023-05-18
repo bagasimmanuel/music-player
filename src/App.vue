@@ -4,11 +4,24 @@
     :currentSong="currentSong"
     :isPlaying="isPlaying"
     @playOrPause="updateIsPlaying"
+    :audioRef="audioRef"
+    :songInfo="songInfo"
   />
-  <Library :songs="songs" @selectSong="updateSelectedSong" />
+  <Library
+    :audioRef="audioRef"
+    :songs="songs"
+    @selectSong="updateSelectedSong"
+    :isPlaying="isPlaying"
+  />
+  <audio
+    @timeupdate="updateSongInfo"
+    @loadedmetadata="updateSongInfo"
+    :src="`${currentSong.audio}`"
+    ref="audioRef"
+  ></audio>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import Song from "@/components/Song.vue";
 import Player from "@/components/Player.vue";
 import Library from "@/components/Library.vue";
@@ -29,6 +42,20 @@ const updateSelectedSong = (selectedSongId) => {
 let isPlaying = ref(false);
 const updateIsPlaying = () => {
   isPlaying.value = !isPlaying.value;
+};
+
+// Here comes the pain of audioRef from player to App.vue
+const audioRef = ref(null);
+
+// Song Info
+const songInfo = reactive({
+  currentTime: 0,
+  duration: 0,
+});
+
+const updateSongInfo = (e) => {
+  songInfo.currentTime = e.target.currentTime;
+  songInfo.duration = e.target.duration;
 };
 </script>
 <style>

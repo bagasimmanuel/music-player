@@ -20,6 +20,12 @@ const props = defineProps({
   songs: {
     required: true,
   },
+  audioRef: {
+    type: Object,
+  },
+  isPlaying: {
+    type: Boolean,
+  },
 });
 // Steps
 // Emit the id to the top parent, trus dapetin the index, change the currentSong
@@ -28,6 +34,14 @@ const props = defineProps({
 
 const selectSong = () => {
   emit("updateSelectedSong", props.song.id);
+  if (props.isPlaying) {
+    const playPromise = props.audioRef.play();
+    if (props.audioRef.play() !== undefined) {
+      playPromise.then((audio) => {
+        props.audioRef.play();
+      });
+    }
+  }
 };
 </script>
 
