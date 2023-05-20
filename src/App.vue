@@ -1,6 +1,6 @@
 <template>
   <Nav @toggleLibrary="updateLibraryStatus" />
-  <Song :currentSong="currentSong" />
+  <Song :currentSong="currentSong" :songInfo="songInfo" />
   <Player
     :currentSong="currentSong"
     :isPlaying="isPlaying"

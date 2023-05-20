@@ -1,17 +1,29 @@
 <template>
   <div class="song-container">
-    <img :src="`${currentSong.cover}`" />
+    <img :src="`${currentSong.cover}`" :style="rotateCover" />
     <h2>{{ currentSong.name }}</h2>
     <h3>{{ currentSong.artist }}</h3>
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
+import { computed, defineProps } from "vue";
 const props = defineProps({
   currentSong: {
     type: Object,
     required: true,
   },
+  songInfo: {
+    type: Object,
+    required: true,
+  },
+});
+
+const rotateCover = computed(() => {
+  const degree = Math.round(
+    (props.songInfo.currentTime / props.songInfo.duration) * 360
+  );
+  // console.log(degree);
+  return `transform : rotate(${degree}deg)`;
 });
 </script>
 <style scoped lang="scss">
