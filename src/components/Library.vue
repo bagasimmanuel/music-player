@@ -79,4 +79,11 @@ const isLibraryOpen = computed(() => {
     background: white;
   }
 }
+
+@media screen and (max-width: 1378px) {
+  .library {
+    opacity: 1;
+    background: white;
+  }
+}
 </style>
