@@ -152,7 +152,7 @@ const trackBackground = computed(() => {
     cursor: pointer;
   }
 }
-
+// Slider css
 input[type="range"]:focus {
   outline: none;
 }

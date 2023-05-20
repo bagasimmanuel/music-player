@@ -99,7 +99,7 @@ const skipSong = (num) => {
 
   currentSong.value = songs.value[updatedIndex];
   currentSong.value.active = true;
-  playAudio(isPlaying.value, audioRef);
+  playAudio(isPlaying.value, audioRef.value);
 
   // SongEndHandler
 };
